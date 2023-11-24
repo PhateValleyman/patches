@@ -1,0 +1,224 @@
+diff -uNr bash-5.0/config-top.h bash-5.0.mod/config-top.h
+--- bash-5.0/config-top.h	2018-10-12 22:35:23.000000000 +0300
++++ bash-5.0.mod/config-top.h	2019-02-20 14:15:53.266802311 +0200
+@@ -63,7 +63,7 @@
+ /* The default value of the PATH variable. */
+ #ifndef DEFAULT_PATH_VALUE
+ #define DEFAULT_PATH_VALUE \
+-  "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
++  "/data/data/com.termux/files/usr/bin:."
+ #endif
+ 
+ /* If you want to unconditionally set a value for PATH in every restricted
+@@ -74,7 +74,7 @@
+    the Posix.2 confstr () function, or CS_PATH define are not present. */
+ #ifndef STANDARD_UTILS_PATH
+ #define STANDARD_UTILS_PATH \
+-  "/bin:/usr/bin:/sbin:/usr/sbin:/etc:/usr/etc"
++  "/data/data/com.termux/files/usr/bin"
+ #endif
+ 
+ /* Default primary and secondary prompt strings. */
+@@ -91,7 +91,7 @@
+ #define DEFAULT_BASHRC "~/.bashrc"
+ 
+ /* System-wide .bashrc file for interactive shells. */
+-/* #define SYS_BASHRC "/etc/bash.bashrc" */
++#define SYS_BASHRC "/data/data/com.termux/files/usr/etc/bash.bashrc"
+ 
+ /* System-wide .bash_logout for login shells. */
+ /* #define SYS_BASH_LOGOUT "/etc/bash.bash_logout" */
+diff -uNr bash-5.0/error.c bash-5.0.mod/error.c
+--- bash-5.0/error.c	2018-10-08 22:16:07.000000000 +0300
++++ bash-5.0.mod/error.c	2019-02-20 14:19:39.265261705 +0200
+@@ -430,7 +430,7 @@
+   static FILE *tracefp = (FILE *)NULL;
+ 
+   if (tracefp == NULL)
+-    tracefp = fopen("/tmp/bash-trace.log", "a+");
++    tracefp = fopen("/data/data/com.termux/files/usr/tmp/bash-trace.log", "a+");
+ 
+   if (tracefp == NULL)
+     tracefp = stderr;
+diff -uNr bash-5.2/examples/loadables/getconf.c bash-5.2.mod/examples/loadables/getconf.c
+--- bash-5.2/examples/loadables/getconf.c	2021-12-03 16:46:22.000000000 +0000
++++ bash-5.2.mod/examples/loadables/getconf.c	2022-10-06 20:53:54.002071000 +0100
+@@ -489,8 +489,10 @@
+     { "POSIX2_UPE", _SC_2_UPE, SYSCONF },
+     { "POSIX2_VERSION", _SC_2_VERSION, SYSCONF },
+ 
++#ifdef _CS_PATH
+     { "PATH", _CS_PATH, CONFSTR },
+     { "CS_PATH", _CS_PATH, CONFSTR },
++#endif
+ 
+     /* LFS */
+ #ifdef _CS_LFS_CFLAGS
+@@ -1072,6 +1074,7 @@
+ 	printf ("%ld\n", value);
+       return (EXECUTION_SUCCESS);
+ 
++#ifndef __ANDROID__
+     case CONFSTR:
+       errno = 0;
+       clen = confstr (cn, (char *) NULL, 0);
+@@ -1092,10 +1095,14 @@
+ 	printf ("%.*s\n", (int) clen, cvalue);
+       free (cvalue);
+       return (EXECUTION_SUCCESS);
++#endif
+ 
+     case CONSTANT:
+       return (getconf_internal (c, all));
+ 
++#ifdef __ANDROID__
++    case CONFSTR:
++#endif
+     case UNDEFINED:
+       builtin_error ("%s: undefined", c->name);
+       return (EXECUTION_FAILURE);
+diff -uNr bash-5.0/lib/malloc/stats.c bash-5.0.mod/lib/malloc/stats.c
+--- bash-5.0/lib/malloc/stats.c	2018-06-19 22:24:52.000000000 +0300
++++ bash-5.0.mod/lib/malloc/stats.c	2019-02-20 14:17:52.094412438 +0200
+@@ -142,7 +142,7 @@
+   _print_malloc_stats (s, fp);
+ }
+ 
+-#define TRACEROOT "/var/tmp/maltrace/stats."
++#define TRACEROOT "/data/data/com.termux/files/usr/var/tmp/maltrace/stats."
+ 
+ void
+ trace_malloc_stats (s, fn)
+diff -uNr bash-5.0/lib/malloc/table.c bash-5.0.mod/lib/malloc/table.c
+--- bash-5.0/lib/malloc/table.c	2016-01-15 15:47:26.000000000 +0200
++++ bash-5.0.mod/lib/malloc/table.c	2019-02-20 14:18:05.854521552 +0200
+@@ -390,7 +390,7 @@
+   _location_dump_table (stderr);
+ }
+ 
+-#define LOCROOT "/var/tmp/maltrace/locations."
++#define LOCROOT "/data/data/com.termux/files/usr/var/tmp/maltrace/locations."
+ 
+ void
+ mlocation_write_table ()
+diff -uNr bash-5.0/lib/malloc/trace.c bash-5.0.mod/lib/malloc/trace.c
+--- bash-5.0/lib/malloc/trace.c	2016-01-15 15:48:23.000000000 +0200
++++ bash-5.0.mod/lib/malloc/trace.c	2019-02-20 14:17:59.184468664 +0200
+@@ -108,7 +108,7 @@
+ #endif
+ }
+ 
+-#define TRACEROOT "/var/tmp/maltrace/trace."
++#define TRACEROOT "/data/data/com.termux/files/usr/var/tmp/maltrace/trace."
+ 
+ void
+ malloc_set_tracefn (s, fn)
+diff -uNr bash-5.0/lib/readline/complete.c bash-5.0.mod/lib/readline/complete.c
+--- bash-5.0/lib/readline/complete.c	2017-07-05 02:43:20.000000000 +0300
++++ bash-5.0.mod/lib/readline/complete.c	2019-02-20 14:15:49.683440481 +0200
+@@ -2231,7 +2231,7 @@
+ char *
+ rl_username_completion_function (const char *text, int state)
+ {
+-#if defined (__WIN32__) || defined (__OPENNT)
++#if defined (__WIN32__) || defined (__OPENNT) || defined (__ANDROID__)
+   return (char *)NULL;
+ #else /* !__WIN32__ && !__OPENNT) */
+   static char *username = (char *)NULL;
+diff -uNr bash-5.0/lib/readline/rlconf.h bash-5.0.mod/lib/readline/rlconf.h
+--- bash-5.0/lib/readline/rlconf.h	2017-02-21 17:25:30.000000000 +0200
++++ bash-5.0.mod/lib/readline/rlconf.h	2019-02-20 14:16:17.230326111 +0200
+@@ -43,7 +43,7 @@
+ #define DEFAULT_INPUTRC "~/.inputrc"
+ 
+ /* The ultimate last-ditch filename for an init file -- system-wide. */
+-#define SYS_INPUTRC "/etc/inputrc"
++#define SYS_INPUTRC "/data/data/com.termux/files/usr/etc/inputrc"
+ 
+ /* If defined, expand tabs to spaces. */
+ #define DISPLAY_TABS
+diff -uNr bash-5.0/lib/readline/util.c bash-5.0.mod/lib/readline/util.c
+--- bash-5.0/lib/readline/util.c	2017-06-15 23:27:17.000000000 +0300
++++ bash-5.0.mod/lib/readline/util.c	2019-02-20 14:18:24.271334221 +0200
+@@ -506,7 +506,7 @@
+   if (x == 0)
+     x = ".";
+ #else
+-  x = "/var/tmp";
++  x = "/data/data/com.termux/files/usr/var/tmp";
+ #endif
+   snprintf (fnbuf, sizeof (fnbuf), "%s/rltrace.%ld", x, (long)getpid());
+   unlink(fnbuf);
+diff -uNr bash-5.0/lib/sh/tmpfile.c bash-5.0.mod/lib/sh/tmpfile.c
+--- bash-5.0/lib/sh/tmpfile.c	2016-08-11 18:05:58.000000000 +0300
++++ bash-5.0.mod/lib/sh/tmpfile.c	2019-02-20 14:17:08.270731426 +0200
+@@ -74,15 +74,11 @@
+     return sys_tmpdir;
+ #endif
+ 
+-  sys_tmpdir = "/tmp";
++  sys_tmpdir = "/data/data/com.termux/files/usr/tmp";
+   if (file_iswdir (sys_tmpdir))
+     return sys_tmpdir;
+ 
+-  sys_tmpdir = "/var/tmp";
+-  if (file_iswdir (sys_tmpdir))
+-    return sys_tmpdir;
+-
+-  sys_tmpdir = "/usr/tmp";
++  sys_tmpdir = "/data/data/com.termux/files/usr/var/tmp";
+   if (file_iswdir (sys_tmpdir))
+     return sys_tmpdir;
+ 
+diff -uNr bash-5.0/pathnames.h.in bash-5.0.mod/pathnames.h.in
+--- bash-5.0/pathnames.h.in	2009-01-04 21:32:40.000000000 +0200
++++ bash-5.0.mod/pathnames.h.in	2019-02-20 14:15:56.880164371 +0200
+@@ -22,10 +22,10 @@
+ #define _PATHNAMES_H_
+ 
+ /* The default file for hostname completion. */
+-#define DEFAULT_HOSTS_FILE "/etc/hosts"
++#define DEFAULT_HOSTS_FILE "/data/data/com.termux/files/usr/etc/hosts"
+ 
+ /* The default login shell startup file. */
+-#define SYS_PROFILE "/etc/profile"
++#define SYS_PROFILE "/data/data/com.termux/files/usr/etc/profile"
+ 
+ /* The default location of the bash debugger initialization/startup file. */
+ #define DEBUGGER_START_FILE	"@DEBUGGER_START_FILE@"
+diff -uNr bash-5.0/shell.c bash-5.0.mod/shell.c
+--- bash-5.0/shell.c	2018-12-06 18:28:21.000000000 +0200
++++ bash-5.0.mod/shell.c	2019-02-20 14:19:29.808520144 +0200
+@@ -339,12 +339,12 @@
+ {
+   struct stat sb;
+ 
+-  if (stat ("/tmp", &sb) < 0)
+-    internal_warning (_("could not find /tmp, please create!"));
++  if (stat ("/data/data/com.termux/files/usr/tmp", &sb) < 0)
++    internal_warning (_("could not find /data/data/com.termux/files/usr/tmp, please create!"));
+   else
+     {
+       if (S_ISDIR (sb.st_mode) == 0)
+-	internal_warning (_("/tmp must be a valid directory name"));
++	internal_warning (_("/data/data/com.termux/files/usr/tmp must be a valid directory name"));
+     }
+ }
+ #endif /* __CYGWIN__ */
+diff -uNr bash-5.2/version.c bash-5.2.mod/version.c
+--- bash-5.2/version.c      2023-11-24 01:58:01.480007736 +0100
++++ bash-5.2.mod/version.c   2023-11-24 01:57:03.940007708 +0100
+@@ -83,12 +83,5 @@
+ show_shell_version (extended)
+      int extended;
+ {
+-  printf (_("GNU bash, version %s (%s)\n"), shell_version_string (), MACHTYPE);
+-  if (extended)
+-    {
+-      printf ("%s\n", _(bash_copyright));
+-      printf ("%s\n", _(bash_license));
+-      printf ("%s\n", _("This is free software; you are free to change and redistribute it."));
+-      printf ("%s\n", _("There is NO WARRANTY, to the extent permitted by law."));
+-    }
++  printf (_("bash v%s (%s)\nby PhateValleyman\nJonas.Ned@outlook.com\n"), shell_version_string (), MACHTYPE);
+ }
