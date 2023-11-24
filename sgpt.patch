@@ -1,0 +1,16 @@
+diff --git a/cli/version.go b/cli/version.go
+index 4d38c00..12ea096 100644
+--- a/cli/version.go
++++ b/cli/version.go
+@@ -43,9 +43,9 @@ func newVersionCmd() *versionCmd {
+ 		RunE: func(cmd *cobra.Command, _ []string) error {
+ 			var err error
+ 			if version.full {
+-				_, err = fmt.Fprintf(cmd.OutOrStdout(), "version: %s\ncommit: %s\ncommitDate: %s\n", buildinfo.Version(), buildinfo.Commit(), buildinfo.CommitDate())
++				_, err = fmt.Fprintf(cmd.OutOrStdout(), "version: %s\nauthor: PhateValleyman <Jonas.Ned@outlook.com>\nbuildDate: 12.11.2023\n", buildinfo.Version())
+ 			} else {
+-				_, err = fmt.Fprintf(cmd.OutOrStdout(), "%s\n", buildinfo.Version())
++				_, err = fmt.Fprintf(cmd.OutOrStdout(), "version: %s\nauthor: PhateValleyman <Jonas.Ned@outlook.com>\nbuildDate: 12.11.2023\n", buildinfo.Version())
+ 			}
+ 			return err
+ 		},
