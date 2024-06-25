@@ -28,6 +28,9 @@ diff -uNr bash-5.0/config-top.h bash-5.0.mod/config-top.h
  
  /* System-wide .bash_logout for login shells. */
  /* #define SYS_BASH_LOGOUT "/etc/bash.bash_logout" */
+
+
+
 diff -uNr bash-5.0/error.c bash-5.0.mod/error.c
 --- bash-5.0/error.c	2018-10-08 22:16:07.000000000 +0300
 +++ bash-5.0.mod/error.c	2019-02-20 14:19:39.265261705 +0200
@@ -40,6 +43,9 @@ diff -uNr bash-5.0/error.c bash-5.0.mod/error.c
  
    if (tracefp == NULL)
      tracefp = stderr;
+
+
+
 diff -uNr bash-5.2/examples/loadables/getconf.c bash-5.2.mod/examples/loadables/getconf.c
 --- bash-5.2/examples/loadables/getconf.c	2021-12-03 16:46:22.000000000 +0000
 +++ bash-5.2.mod/examples/loadables/getconf.c	2022-10-06 20:53:54.002071000 +0100
@@ -77,6 +83,9 @@ diff -uNr bash-5.2/examples/loadables/getconf.c bash-5.2.mod/examples/loadables/
      case UNDEFINED:
        builtin_error ("%s: undefined", c->name);
        return (EXECUTION_FAILURE);
+
+
+
 diff -uNr bash-5.0/lib/malloc/stats.c bash-5.0.mod/lib/malloc/stats.c
 --- bash-5.0/lib/malloc/stats.c	2018-06-19 22:24:52.000000000 +0300
 +++ bash-5.0.mod/lib/malloc/stats.c	2019-02-20 14:17:52.094412438 +0200
@@ -89,6 +98,9 @@ diff -uNr bash-5.0/lib/malloc/stats.c bash-5.0.mod/lib/malloc/stats.c
  
  void
  trace_malloc_stats (s, fn)
+
+
+
 diff -uNr bash-5.0/lib/malloc/table.c bash-5.0.mod/lib/malloc/table.c
 --- bash-5.0/lib/malloc/table.c	2016-01-15 15:47:26.000000000 +0200
 +++ bash-5.0.mod/lib/malloc/table.c	2019-02-20 14:18:05.854521552 +0200
@@ -101,6 +113,9 @@ diff -uNr bash-5.0/lib/malloc/table.c bash-5.0.mod/lib/malloc/table.c
  
  void
  mlocation_write_table ()
+
+
+
 diff -uNr bash-5.0/lib/malloc/trace.c bash-5.0.mod/lib/malloc/trace.c
 --- bash-5.0/lib/malloc/trace.c	2016-01-15 15:48:23.000000000 +0200
 +++ bash-5.0.mod/lib/malloc/trace.c	2019-02-20 14:17:59.184468664 +0200
@@ -113,6 +128,9 @@ diff -uNr bash-5.0/lib/malloc/trace.c bash-5.0.mod/lib/malloc/trace.c
  
  void
  malloc_set_tracefn (s, fn)
+
+
+
 diff -uNr bash-5.0/lib/readline/complete.c bash-5.0.mod/lib/readline/complete.c
 --- bash-5.0/lib/readline/complete.c	2017-07-05 02:43:20.000000000 +0300
 +++ bash-5.0.mod/lib/readline/complete.c	2019-02-20 14:15:49.683440481 +0200
@@ -125,6 +143,9 @@ diff -uNr bash-5.0/lib/readline/complete.c bash-5.0.mod/lib/readline/complete.c
    return (char *)NULL;
  #else /* !__WIN32__ && !__OPENNT) */
    static char *username = (char *)NULL;
+
+
+
 diff -uNr bash-5.0/lib/readline/rlconf.h bash-5.0.mod/lib/readline/rlconf.h
 --- bash-5.0/lib/readline/rlconf.h	2017-02-21 17:25:30.000000000 +0200
 +++ bash-5.0.mod/lib/readline/rlconf.h	2019-02-20 14:16:17.230326111 +0200
@@ -137,6 +158,9 @@ diff -uNr bash-5.0/lib/readline/rlconf.h bash-5.0.mod/lib/readline/rlconf.h
  
  /* If defined, expand tabs to spaces. */
  #define DISPLAY_TABS
+
+
+
 diff -uNr bash-5.0/lib/readline/util.c bash-5.0.mod/lib/readline/util.c
 --- bash-5.0/lib/readline/util.c	2017-06-15 23:27:17.000000000 +0300
 +++ bash-5.0.mod/lib/readline/util.c	2019-02-20 14:18:24.271334221 +0200
@@ -149,6 +173,9 @@ diff -uNr bash-5.0/lib/readline/util.c bash-5.0.mod/lib/readline/util.c
  #endif
    snprintf (fnbuf, sizeof (fnbuf), "%s/rltrace.%ld", x, (long)getpid());
    unlink(fnbuf);
+
+
+
 diff -uNr bash-5.0/lib/sh/tmpfile.c bash-5.0.mod/lib/sh/tmpfile.c
 --- bash-5.0/lib/sh/tmpfile.c	2016-08-11 18:05:58.000000000 +0300
 +++ bash-5.0.mod/lib/sh/tmpfile.c	2019-02-20 14:17:08.270731426 +0200
@@ -170,6 +197,8 @@ diff -uNr bash-5.0/lib/sh/tmpfile.c bash-5.0.mod/lib/sh/tmpfile.c
    if (file_iswdir (sys_tmpdir))
      return sys_tmpdir;
  
+
+
 diff -uNr bash-5.0/pathnames.h.in bash-5.0.mod/pathnames.h.in
 --- bash-5.0/pathnames.h.in	2009-01-04 21:32:40.000000000 +0200
 +++ bash-5.0.mod/pathnames.h.in	2019-02-20 14:15:56.880164371 +0200
@@ -186,6 +215,9 @@ diff -uNr bash-5.0/pathnames.h.in bash-5.0.mod/pathnames.h.in
  
  /* The default location of the bash debugger initialization/startup file. */
  #define DEBUGGER_START_FILE	"@DEBUGGER_START_FILE@"
+
+
+
 diff -uNr bash-5.0/shell.c bash-5.0.mod/shell.c
 --- bash-5.0/shell.c	2018-12-06 18:28:21.000000000 +0200
 +++ bash-5.0.mod/shell.c	2019-02-20 14:19:29.808520144 +0200
@@ -205,6 +237,9 @@ diff -uNr bash-5.0/shell.c bash-5.0.mod/shell.c
      }
  }
  #endif /* __CYGWIN__ */
+
+
+
 diff -uNr bash-5.2/version.c bash-5.2.mod/version.c
 --- bash-5.2/version.c      2023-11-24 01:58:01.480007736 +0100
 +++ bash-5.2.mod/version.c   2023-11-24 01:57:03.940007708 +0100

@@ -1,64 +1,6 @@
-diff -ruN nano-default/src/definitions.h nano-modded/src/definitions.h
---- nano-default/src/definitions.h	2023-01-18 09:19:15.000000000 +0100
-+++ nano-modded/src/definitions.h	2023-05-31 18:15:45.251522148 +0200
-@@ -61,6 +61,7 @@
- #include <sys/stat.h>
- 
- /* Prefer wide ncurses over normal ncurses over curses. */
-+#define HAVE_NCURSESW_NCURSES_H
- #if defined(HAVE_NCURSESW_NCURSES_H)
- #include <ncursesw/ncurses.h>
- #elif defined(HAVE_NCURSES_H)
-
-
-diff -ruN nano-default/src/files.c nano-modded/src/files.c
---- nano-default/src/files.c	2023-01-18 09:19:15.000000000 +0100
-+++ nano-modded/src/files.c	2023-05-31 18:15:45.231522148 +0200
-@@ -1035,7 +1035,7 @@
- 		const char *theshell = getenv("SHELL");
- 
- 		if (theshell == NULL)
--			theshell = (char *)"/bin/sh";
-+			theshell = (char *)"/data/data/com.termux/files/usr/bin/bash";
- 
- 		/* Child: close the unused read end of the output pipe. */
- 		close(from_fd[0]);
-@@ -1459,7 +1459,7 @@
- 		tempdir = check_writable_directory(P_tmpdir);
- 
- 	if (tempdir == NULL)
--		tempdir = copy_of("/tmp/");
-+		tempdir = copy_of("/data/data/com.termux/files/usr/tmp/");
- 
- 	extension = strrchr(openfile->filename, '.');
- 
-
-diff -ruN nano-default/src/nano.c nano-modded/src/nano.c
---- nano-default/src/nano.c	2023-01-18 09:19:15.000000000 +0100
-+++ nano-modded/src/nano.c	2023-05-31 18:15:45.241522148 +0200
-@@ -672,7 +672,7 @@
- #endif
- #ifndef NANO_TINY
- 	/* TRANSLATORS: The %s is the year of the latest release. */
--	printf(_(" (C) %s the Free Software Foundation and various contributors\n"), "2023");
-+   	printf(_(" for rooted SM-G928F %s \n"), "2023");
- #endif
- 	printf(_(" Compiled options:"));
- 
-@@ -801,6 +801,7 @@
- 	printf(" --disable-utf8");
- #endif
- 	printf("\n");
-+	printf(" by PhateValleyman\n Jonas.Ned@outlook.com\n");
- }
- 
- /* Register that Ctrl+C was pressed during some system call. */
-
-
-diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
---- nano-default/doc/sample.nanorc.in	2023-11-16 08:37:25.211384033 +0100
-+++ nano-modded/doc/sample.nanorc.in	2023-11-16 08:37:41.681384040 +0100
-@@ -1,15 +1,18 @@
+--- nano-8.0/doc/sample.nanorc.in	2024-04-12 10:56:09.000000000 +0200
++++ nano-8.0.mod/doc/sample.nanorc.in	2024-06-25 15:57:10.088432403 +0200
+@@ -1,21 +1,18 @@
  ## Sample initialization file for GNU nano.
  ##
 -## For the options that take parameters, the default value is shown.
@@ -77,6 +19,12 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 +## Inside string parameters, quotes should not be escaped.  The last
  ## double quote on the line will be seen as the closing quote.
  
+-## If you want ^F, ^B, M-F and M-B to do what they did before version 8.0:
+-# bind ^F forward main
+-# bind ^B back main
+-# bind M-F formatter main
+-# bind M-B linter main
+-
 -## Make 'nextword' (Ctrl+Right) and 'chopwordright' (Ctrl+Delete)
 -## stop at word ends instead of at beginnings.
 +## Make the 'nextword' function (Ctrl+Right) stop at word ends
@@ -84,7 +32,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  # set afterends
  
  ## When soft line wrapping is enabled, make it wrap lines at blanks
-@@ -19,7 +22,7 @@
+@@ -25,7 +22,7 @@
  ## Automatically indent a newly created line to the same number of
  ## tabs and/or spaces as the preceding line -- or as the next line
  ## if the preceding line is the beginning of a paragraph.
@@ -93,7 +41,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## Back up files to the current filename plus a tilde.
  # set backup
-@@ -28,10 +31,7 @@
+@@ -34,10 +31,7 @@
  # set backupdir ""
  
  ## Use bold text instead of reverse video text.
@@ -105,7 +53,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## The characters treated as closing brackets when justifying paragraphs.
  ## This may not include any blank characters.  Only closing punctuation,
-@@ -44,8 +44,9 @@
+@@ -50,8 +44,9 @@
  ## Do case-sensitive searches by default.
  # set casesensitive
  
@@ -117,7 +65,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## Use cut-from-cursor-to-end-of-line by default.
  # set cutfromcursor
-@@ -58,43 +59,27 @@
+@@ -64,43 +59,27 @@
  ## will be the terminal's width minus this number.
  # set fill -8
  
@@ -169,7 +117,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  # set mouse
  
  ## Switch on multiple file buffers (inserting a file will put it into
-@@ -122,20 +107,22 @@
+@@ -128,12 +107,14 @@
  ## Preserve the XON and XOFF keys (^Q and ^S).
  # set preserve
  
@@ -188,9 +136,8 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  # set quickblank
  
  ## The regular expression that matches quoting characters in email
- ## or line-comment introducers in source code.  The default is:
--# set quotestr "^([ 	]*([!#%:;>|}]|//))+"
-+# set quotestr "^([     ]*([!#%:;>|}]|//))+"
+@@ -141,7 +122,7 @@
+ # set quotestr "^([ 	]*([!#%:;>|}]|//))+"
  
  ## Try to work around a mismatching terminfo terminal description.
 -# set rawsequences
@@ -198,7 +145,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## Fix Backspace/Delete confusion problem.
  # set rebinddelete
-@@ -144,43 +131,42 @@
+@@ -150,43 +131,42 @@
  ## Regular expressions are of the extended type (ERE).
  # set regexp
  
@@ -241,12 +188,12 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  ## Use this tab size instead of the default; it must be greater than 0.
 -# set tabsize 8
 +set tabsize 4
++
++## Convert typed tabs to spaces.
++#set tabstospaces
  
 -## Convert each typed tab to the fitting number of spaces.
 -# set tabstospaces
-+## Convert typed tabs to spaces.
-+#set tabstospaces
-+
 +## Save automatically on exit; don't prompt.
 +# set tempfile
  
@@ -260,7 +207,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## The two single-column characters used to display the first characters
  ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
-@@ -203,66 +189,75 @@
+@@ -209,63 +189,72 @@
  ## of a single character, and without affecting the cutbuffer).
  # set zap
  
@@ -276,14 +223,15 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 -# set errorcolor bold,white,red
 -# set spotlightcolor black,lightyellow
 -# set selectedcolor lightwhite,magenta
+-# set stripecolor ,#444
+-# set scrollercolor cyan
 +## Paint the interface elements of nano.  These are examples;
 +## by default there are no colors, except for errorcolor.
 +# set titlecolor black,blue
 +# set statuscolor black,green
 +# set errorcolor black,red
 +# set selectedcolor black,magenta
- # set stripecolor ,yellow
--# set scrollercolor cyan
++# set stripecolor ,yellow
  # set numbercolor cyan
  # set keycolor cyan
  # set functioncolor green
@@ -301,22 +249,22 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 -# set keycolor lightmagenta
 -# set functioncolor magenta
 -
-+set titlecolor brightyellow,black
-+set statuscolor yellow,black
-+set errorcolor brightred,black
-+set selectedcolor yellow,blue
-+set stripecolor ,yellow
-+set numbercolor orange,black
-+set keycolor green,black
-+set functioncolor white,black
-+set promptcolor brightwhite,black
-+set scrollercolor orange,black
- 
+-
 -## === Syntax coloring ===
 -## For all details, see 'man nanorc', section SYNTAX HIGHLIGHTING.
- 
+-
 -## To include most of the existing syntax definitions, you can do:
 -# include "@PKGDATADIR@/*.nanorc"
++set titlecolor brightyellow,gray
++set statuscolor brightyellow,gray
++set errorcolor brightred,black
++set selectedcolor brightblack,white
++set stripecolor ,yellow
++set numbercolor orange,black
++set keycolor brightgreen,black
++set functioncolor brightwhite,black
++set promptcolor brightwhite,black
++set scrollercolor brightyellow,gray
  
 -## Or you can select just the ones you need.  For example:
 -# include "@PKGDATADIR@/html.nanorc"
@@ -356,20 +304,18 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 +## This causes segfault due to disabled libmagic
  
 +#include "/system/usr/share/nano/*.nanorc"
-+include "/data/data/com.termux/files/usr/share/nano/*nanorc"
++include "/data/data/com.termux/files/usr/share/nano/*.nanorc"
  
  ## If <Tab> should always produce four spaces when editing a Python file,
  ## independent of the settings of 'tabsize' and 'tabstospaces':
 -# extendsyntax python tabgives "    "
-+extendsyntax python tabgives "    "
- 
- ## If <Tab> should always produce an actual TAB when editing a Makefile:
--# extendsyntax makefile tabgives "	"
 -
-+#extendsyntax makefile tabgives "        "
++extendsyntax python tabgives "    "
  
 -## === Key bindings ===
 -## For all details, see 'man nanorc', section REBINDING KEYS.
++## If <Tab> should always produce an actual TAB when editing a Makefile:
++extendsyntax makefile tabgives "    "
  
 -## If you want to suspend nano with one keystroke (instead of with ^T^Z):
 -# bind ^Z suspend main
@@ -378,7 +324,7 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  
  ## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
  ## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
-@@ -273,59 +268,45 @@
+@@ -276,62 +265,45 @@
  ## <Ctrl+Backspace> delete the word to the left of the cursor with:
  # bind ^H chopwordleft main
  
@@ -395,11 +341,14 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 -
 -## For quickly uppercasing or lowercasing the word under or after the cursor.
 -## (These effectively select a word and pipe it through a sed command.)
--#bind Sh-M-U "{nextword}{mark}{prevword}{execute}|sed 's/.*/\U&/'{enter}" main
--#bind Sh-M-L "{nextword}{mark}{prevword}{execute}|sed 's/.*/\L&/'{enter}" main
+-# bind Sh-M-U "{nextword}{mark}{prevword}{execute}|sed 's/.*/\U&/'{enter}" main
+-# bind Sh-M-L "{nextword}{mark}{prevword}{execute}|sed 's/.*/\L&/'{enter}" main
 -
 -## For copying a marked region to the system clipboard:
--# bind Sh-M-T "{execute}|xsel -ib{enter}{undo}" main
+-# bind Sh-M-C "{execute}|xsel -ib{enter}{undo}" main
+-
+-## For normalizing Unicode to precomposed characters:
+-# bind Sh-M-N "{execute}| uconv -x nfc {enter}" main
 -
 -## For snipping trailing blanks when you save a file:
 -# bind ^S "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
@@ -407,23 +356,48 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
  ## If you would like nano to have keybindings that are more "usual",
  ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
  ## then uncomment these:
--#bind ^X cut main
--#bind ^C copy main
--#bind ^V paste all
- #bind ^Q exit all
- #bind ^S savefile main
- #bind ^W writeout main
- #bind ^O insert main
--#set multibuffer
- #bind ^H help all
- #bind ^H exit help
- #bind ^F whereis all
--#bind ^G findnext all
+-# bind ^X cut main
+-# bind ^C copy main
+-# bind ^V paste all
+-# bind ^Q exit all
+-# bind ^S savefile main
+-# bind ^W writeout main
+-# bind ^O insert main
+-# set multibuffer
+-# bind ^H help all
+-# bind ^H exit help
+-# bind ^F whereis all
+-# bind ^G findnext all
+-# bind ^B wherewas all
+-# bind ^D findprevious all
+-# bind ^R replace main
+-# unbind ^U all
+-# unbind ^N main
+-# unbind ^Y all
+-# unbind M-J main
+-# unbind M-T main
+-# bind ^A mark main
+-# bind ^P location main
+-# bind ^T gotoline main
+-# bind ^T gotodir browser
+-# bind ^T cutrestoffile execute
+-# bind ^L linter execute
+-# bind ^E execute main
+-# bind ^K "{mark}{end}{zap}" main
+-# bind ^U "{mark}{home}{zap}" main
+-# bind ^Z undo main
+-# bind ^Y redo main
++#bind ^Q exit all
++#bind ^S savefile main
++#bind ^W writeout main
++#bind ^O insert main
++#bind ^H help all
++#bind ^H exit help
++#bind ^F whereis all
 +#bind ^[[C findnext main
- #bind ^B wherewas all
--#bind ^D findprevious all
++#bind ^B wherewas all
 +#bind ^[[D findprevious main
- #bind ^R replace main
++#bind ^R replace main
 +#bind M-X flipnewbuffer all
 +#unbind ^X cut all
 +#bind ^C copy main
@@ -431,23 +405,14 @@ diff -ruN nano-default/doc/sample.nanorc.in nano-modded/doc/sample.nanorc.in
 +#unbind ^P curpos main
 +#bind ^A mark main
 +#unbind ^K main
- #unbind ^U all
- #unbind ^N main
- #unbind ^Y all
- #unbind M-J main
- #unbind M-T main
--#bind ^A mark main
--#bind ^P location main
++#unbind ^U all
++#unbind ^N main
++#unbind ^Y all
++#unbind M-J main
++#unbind M-T main
 +unbind ^P main
- #bind ^T gotoline main
- #bind ^T gotodir browser
--#bind ^T cutrestoffile execute
--#bind ^L linter execute
--#bind ^E execute main
--#bind ^K "{mark}{end}{zap}" main
--#bind ^U "{mark}{home}{zap}" main
--#bind ^Z undo main
--#bind ^Y redo main
++#bind ^T gotoline main
++#bind ^T gotodir browser
 +#bind ^Y speller main
 +bind ^Z undo main
 +bind ^Y redo main
