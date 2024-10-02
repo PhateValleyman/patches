@@ -1,6 +1,5 @@
-diff -uNr sgpt/pkg/cli/version.go sgpt.mod/pkg/cli/version.go
---- sgpt/pkg/cli/version.go	2023-12-12 23:20:39.400001096 +0100
-+++ sgpt.mod/pkg/cli/version.go	2023-12-12 23:09:25.130000775 +0100
+--- a/pkg/cli/version.go
++++ b/pkg/cli/version.go
 @@ -45,7 +45,7 @@
  			if version.full {
  				_, err = fmt.Fprintf(cmd.OutOrStdout(), "version: %s\ncommit: %s\ncommitDate: %s\n", buildinfo.Version(), buildinfo.Commit(), buildinfo.CommitDate())

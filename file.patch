@@ -1,6 +1,5 @@
-diff -uNr file-5.42/src/file.h file-5.42.mod/src/file.h
---- file-5.42/src/file.h	2022-05-28 21:24:09.000000000 +0100
-+++ file-5.42.mod/src/file.h	2022-07-22 17:16:04.080017000 +0100
+--- a/src/file.h
++++ b/src/file.h
 @@ -96,7 +96,7 @@
  #define ENABLE_CONDITIONALS
  
@@ -10,7 +9,9 @@ diff -uNr file-5.42/src/file.h file-5.42.mod/src/file.h
  #endif
  
  #if defined(__EMX__) || defined (WIN32)
-diff -uNr file-5.42/src/file.c file-5.42.mod/src/file.c
+
+--- a/src/file.c
++++ b/src/file.c
 @@ -327,7 +327,7 @@
                 case 'v':
                         if (magicfile == NULL)
@@ -20,3 +21,15 @@ diff -uNr file-5.42/src/file.c file-5.42.mod/src/file.c
                             VERSION);
                         (void)fprintf(stdout, "magic file from %s\n",
                             magicfile);
+
+--- a/src/compress.c
++++ b/src/compress.c
+@@ -465,7 +465,7 @@
+                (void)strlcat(buf, "/", sizeof(buf));
+        (void)strlcat(buf, "file.XXXXXX", sizeof(buf));
+ #else
+-       (void)strlcpy(buf, "/tmp/file.XXXXXX", sizeof(buf));
++       (void)strlcpy(buf, "/data/data/com.termux/files/usr/tmp/file.XXXXXX", sizeof buf);
+ #endif
+ #ifndef HAVE_MKSTEMP
+        {

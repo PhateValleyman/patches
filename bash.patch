@@ -1,6 +1,5 @@
-diff -uNr bash-5.0/config-top.h bash-5.0.mod/config-top.h
---- bash-5.0/config-top.h	2018-10-12 22:35:23.000000000 +0300
-+++ bash-5.0.mod/config-top.h	2019-02-20 14:15:53.266802311 +0200
+--- a/config-top.h
++++ b/config-top.h
 @@ -63,7 +63,7 @@
  /* The default value of the PATH variable. */
  #ifndef DEFAULT_PATH_VALUE
@@ -31,9 +30,8 @@ diff -uNr bash-5.0/config-top.h bash-5.0.mod/config-top.h
 
 
 
-diff -uNr bash-5.0/error.c bash-5.0.mod/error.c
---- bash-5.0/error.c	2018-10-08 22:16:07.000000000 +0300
-+++ bash-5.0.mod/error.c	2019-02-20 14:19:39.265261705 +0200
+--- a/error.c
++++ b/error.c
 @@ -430,7 +430,7 @@
    static FILE *tracefp = (FILE *)NULL;
  
@@ -46,9 +44,8 @@ diff -uNr bash-5.0/error.c bash-5.0.mod/error.c
 
 
 
-diff -uNr bash-5.2/examples/loadables/getconf.c bash-5.2.mod/examples/loadables/getconf.c
---- bash-5.2/examples/loadables/getconf.c	2021-12-03 16:46:22.000000000 +0000
-+++ bash-5.2.mod/examples/loadables/getconf.c	2022-10-06 20:53:54.002071000 +0100
+--- a/examples/loadables/getconf.c
++++ b/examples/loadables/getconf.c
 @@ -489,8 +489,10 @@
      { "POSIX2_UPE", _SC_2_UPE, SYSCONF },
      { "POSIX2_VERSION", _SC_2_VERSION, SYSCONF },
@@ -86,9 +83,8 @@ diff -uNr bash-5.2/examples/loadables/getconf.c bash-5.2.mod/examples/loadables/
 
 
 
-diff -uNr bash-5.0/lib/malloc/stats.c bash-5.0.mod/lib/malloc/stats.c
---- bash-5.0/lib/malloc/stats.c	2018-06-19 22:24:52.000000000 +0300
-+++ bash-5.0.mod/lib/malloc/stats.c	2019-02-20 14:17:52.094412438 +0200
+--- a/lib/malloc/stats.c
++++ b/lib/malloc/stats.c
 @@ -142,7 +142,7 @@
    _print_malloc_stats (s, fp);
  }
@@ -100,10 +96,8 @@ diff -uNr bash-5.0/lib/malloc/stats.c bash-5.0.mod/lib/malloc/stats.c
  trace_malloc_stats (s, fn)
 
 
-
-diff -uNr bash-5.0/lib/malloc/table.c bash-5.0.mod/lib/malloc/table.c
---- bash-5.0/lib/malloc/table.c	2016-01-15 15:47:26.000000000 +0200
-+++ bash-5.0.mod/lib/malloc/table.c	2019-02-20 14:18:05.854521552 +0200
+--- a/lib/malloc/table.c
++++ b/lib/malloc/table.c
 @@ -390,7 +390,7 @@
    _location_dump_table (stderr);
  }
@@ -116,9 +110,8 @@ diff -uNr bash-5.0/lib/malloc/table.c bash-5.0.mod/lib/malloc/table.c
 
 
 
-diff -uNr bash-5.0/lib/malloc/trace.c bash-5.0.mod/lib/malloc/trace.c
---- bash-5.0/lib/malloc/trace.c	2016-01-15 15:48:23.000000000 +0200
-+++ bash-5.0.mod/lib/malloc/trace.c	2019-02-20 14:17:59.184468664 +0200
+--- a/lib/malloc/trace.c
++++ b/lib/malloc/trace.c
 @@ -108,7 +108,7 @@
  #endif
  }
@@ -130,10 +123,8 @@ diff -uNr bash-5.0/lib/malloc/trace.c bash-5.0.mod/lib/malloc/trace.c
  malloc_set_tracefn (s, fn)
 
 
-
-diff -uNr bash-5.0/lib/readline/complete.c bash-5.0.mod/lib/readline/complete.c
---- bash-5.0/lib/readline/complete.c	2017-07-05 02:43:20.000000000 +0300
-+++ bash-5.0.mod/lib/readline/complete.c	2019-02-20 14:15:49.683440481 +0200
+--- a/lib/readline/complete.c
++++ b/lib/readline/complete.c
 @@ -2231,7 +2231,7 @@
  char *
  rl_username_completion_function (const char *text, int state)
@@ -145,10 +136,8 @@ diff -uNr bash-5.0/lib/readline/complete.c bash-5.0.mod/lib/readline/complete.c
    static char *username = (char *)NULL;
 
 
-
-diff -uNr bash-5.0/lib/readline/rlconf.h bash-5.0.mod/lib/readline/rlconf.h
---- bash-5.0/lib/readline/rlconf.h	2017-02-21 17:25:30.000000000 +0200
-+++ bash-5.0.mod/lib/readline/rlconf.h	2019-02-20 14:16:17.230326111 +0200
+--- a/lib/readline/rlconf.h
++++ b/lib/readline/rlconf.h
 @@ -43,7 +43,7 @@
  #define DEFAULT_INPUTRC "~/.inputrc"
  
@@ -161,9 +150,8 @@ diff -uNr bash-5.0/lib/readline/rlconf.h bash-5.0.mod/lib/readline/rlconf.h
 
 
 
-diff -uNr bash-5.0/lib/readline/util.c bash-5.0.mod/lib/readline/util.c
---- bash-5.0/lib/readline/util.c	2017-06-15 23:27:17.000000000 +0300
-+++ bash-5.0.mod/lib/readline/util.c	2019-02-20 14:18:24.271334221 +0200
+--- a/lib/readline/util.c
++++ b/lib/readline/util.c
 @@ -506,7 +506,7 @@
    if (x == 0)
      x = ".";
@@ -176,9 +164,8 @@ diff -uNr bash-5.0/lib/readline/util.c bash-5.0.mod/lib/readline/util.c
 
 
 
-diff -uNr bash-5.0/lib/sh/tmpfile.c bash-5.0.mod/lib/sh/tmpfile.c
---- bash-5.0/lib/sh/tmpfile.c	2016-08-11 18:05:58.000000000 +0300
-+++ bash-5.0.mod/lib/sh/tmpfile.c	2019-02-20 14:17:08.270731426 +0200
+--- a/lib/sh/tmpfile.c
++++ b/lib/sh/tmpfile.c
 @@ -74,15 +74,11 @@
      return sys_tmpdir;
  #endif
@@ -198,10 +185,8 @@ diff -uNr bash-5.0/lib/sh/tmpfile.c bash-5.0.mod/lib/sh/tmpfile.c
      return sys_tmpdir;
  
 
-
-diff -uNr bash-5.0/pathnames.h.in bash-5.0.mod/pathnames.h.in
---- bash-5.0/pathnames.h.in	2009-01-04 21:32:40.000000000 +0200
-+++ bash-5.0.mod/pathnames.h.in	2019-02-20 14:15:56.880164371 +0200
+--- a/pathnames.h.in
++++ b/pathnames.h.in
 @@ -22,10 +22,10 @@
  #define _PATHNAMES_H_
  
@@ -218,9 +203,8 @@ diff -uNr bash-5.0/pathnames.h.in bash-5.0.mod/pathnames.h.in
 
 
 
-diff -uNr bash-5.0/shell.c bash-5.0.mod/shell.c
---- bash-5.0/shell.c	2018-12-06 18:28:21.000000000 +0200
-+++ bash-5.0.mod/shell.c	2019-02-20 14:19:29.808520144 +0200
+--- a/shell.c
++++ b/shell.c
 @@ -339,12 +339,12 @@
  {
    struct stat sb;
@@ -239,10 +223,8 @@ diff -uNr bash-5.0/shell.c bash-5.0.mod/shell.c
  #endif /* __CYGWIN__ */
 
 
-
-diff -uNr bash-5.2/version.c bash-5.2.mod/version.c
---- bash-5.2/version.c      2023-11-24 01:58:01.480007736 +0100
-+++ bash-5.2.mod/version.c   2023-11-24 01:57:03.940007708 +0100
+--- a/version.c
++++ b/version.c
 @@ -83,12 +83,5 @@
  show_shell_version (extended)
       int extended;
@@ -257,3 +239,35 @@ diff -uNr bash-5.2/version.c bash-5.2.mod/version.c
 -    }
 +  printf (_("bash v%s (%s)\nby PhateValleyman\nJonas.Ned@outlook.com\n"), shell_version_string (), MACHTYPE);
  }
+
+
+ 
+--- a/shell.c
++++ b/shell.c
+@@ -1878,7 +1878,9 @@
+ 	}
+       else
+ 	{
+-	  current_user.user_name = _("I have no name!");
++	  current_user.user_name = getenv("USER");
++	  if (!current_user.user_name)
++		  current_user.user_name = _("Valleyman");
+ 	  current_user.user_name = savestring (current_user.user_name);
+ 	  current_user.shell = savestring ("/bin/sh");
+ 	  current_user.home_dir = savestring ("/");
+@@ -1919,10 +1921,12 @@
+   if (current_host_name == 0)
+     {
+       /* Initialize current_host_name. */
+-      if (gethostname (hostname, 255) < 0)
+-	current_host_name = "??host??";
++      if (getenv("HOSTNAME"))
++  current_host_name = savestring (getenv("HOSTNAME"));
++      else if (gethostname (hostname, 255) >= 0)
++  current_host_name = savestring (hostname);
+       else
+-	current_host_name = savestring (hostname);
++	current_host_name = "umbrella-corporation";
+     }
+ 
+   /* Initialize the stuff in current_user that comes from the password

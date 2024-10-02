@@ -1,0 +1,11 @@
+--- a/src/ninja.cc
++++ b/src/ninja.cc
+@@ -1511,7 +1511,7 @@
+         options->working_dir = optarg;
+         break;
+       case OPT_VERSION:
+-        printf("%s\n", kNinjaVersion);
++        printf("ninja v%s\nby PhateValleyman\nJonas.Ned@outlook.com\n", kNinjaVersion);
+         return 0;
+       case 'h':
+       default:
