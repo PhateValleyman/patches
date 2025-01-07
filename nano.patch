@@ -56,8 +56,6 @@
 --- a/doc/sample.nanorc.in
 +++ b/doc/sample.nanorc.in
 
---- nano-8.1/doc/sample.nanorc.in	2024-04-12 10:56:09.000000000 +0200
-+++ nano-8.1.mod/doc/sample.nanorc.in	2024-06-25 15:57:10.088432403 +0200
 @@ -1,21 +1,18 @@
  ## Sample initialization file for GNU nano.
  ##

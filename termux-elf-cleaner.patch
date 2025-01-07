@@ -1,0 +1,27 @@
+--- ./elf-cleaner.cpp~	2025-01-04 21:43:27.000000000 +0100
++++ ./elf-cleaner.cpp	2025-01-07 13:28:39.690710954 +0100
+@@ -47,7 +47,7 @@
+ 
+ /* Default to api level 21 unless arg --api-level given  */
+ uint8_t supported_dt_flags_1 = (DF_1_NOW | DF_1_GLOBAL);
+-int api_level = 21;
++int api_level = 33;
+ 
+ int dry_run = 0;
+ int quiet = 0;
+@@ -345,14 +345,7 @@
+ 				threads_count = 1;
+ 			break;
+ 		case 'v':
+-			printf("%s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
+-			printf(("%s\n"
+-				"%s comes with ABSOLUTELY NO WARRANTY.\n"
+-				"You may redistribute copies of %s\n"
+-				"under the terms of the GNU General Public License.\n"
+-				"For more information about these matters, "
+-				"see the file named COPYING.\n"),
+-				COPYRIGHT, PACKAGE_NAME, PACKAGE_NAME);
++			printf("%s v%s\nby PhateValleyman\nJonas.Ned@outlook.com\n", PACKAGE_NAME, PACKAGE_VERSION);
+ 			return 0;
+ 		case 'h':
+ 			printf("Usage: %s [OPTION-OR-FILENAME]...\n", argv[0]);
